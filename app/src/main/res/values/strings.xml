@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">NutriApp</string>
+    <string name="bienvenido_usuario">Bienvenido Usuario</string>
+    <string name="calorias_totales">Calorias Totales: 450</string>
+    <string name="title_pasos">Pasos</string>
+    <string name="step_counter">500</string>
+    <string name="cal_counter" >120</string>
+    <string name="dieta">Dieta</string>
+    <string name="rutina">Rutina</string>
 </resources>
