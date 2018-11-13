@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        in = new Intent(
-                getApplicationContext(), StepService.class);
+        in = new Intent(getApplicationContext(), StepService.class);
 
 
         stp = findViewById(R.id.step_count);
