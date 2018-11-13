@@ -1,22 +1,24 @@
 package com.cega.nutriapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener{
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "SensorEvent";
 
     private Toolbar toolbar;
-    private int count;
-    private SensorManager sensorManager;
     private TextView stp;
+    private Intent in;
+    private boolean isServiceStopped;
+    private String countedStep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,49 +28,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setContentView(R.layout.activity_main);
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        in = new Intent(
+                getApplicationContext(), StepService.class);
 
-        iniciar_Sensores();
-        stp = findViewById(R.id.steps_count);
 
+        stp = findViewById(R.id.step_count);
+
+
+        startService(new Intent(getBaseContext(), StepService.class));
+
+        registerReceiver(broadcastReceiver, new IntentFilter(StepService.BROADCAST_ACTION));
+        isServiceStopped = false;
 
     }
 
-    // Metodo para iniciar el acceso a los sensores
-    protected void iniciar_Sensores() {
-        sensorManager.registerListener(this,sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
-                SensorManager.SENSOR_DELAY_UI);
-    }
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
-    // Metodo para parar la escucha de los sensores
-    private void parar_Sensores() {
-        sensorManager.unregisterListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER));
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        iniciar_Sensores();
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        synchronized (this){
-            switch (event.sensor.getType()){
-                case Sensor.TYPE_STEP_COUNTER:
-                    Log.d("sensor00", String.valueOf((int)event.values[0]));
-                    count = (int) event.values[0];
-                    stp.setText(String.valueOf(count));
-                    break;
-            }
+            updateViews(intent);
         }
-    }
+    };
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    private void updateViews(Intent intent) {
+        // retrieve data out of the intent.
+        countedStep = intent.getStringExtra("Counted_Step");
+        Log.d(TAG, String.valueOf(countedStep));
+
+        stp.setText(String.valueOf(countedStep));
 
     }
 
