@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
 
-        // Iniciar sensor al abrir app
+        // Iniciar sensor al abrir
         numSteps = 0;
         sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
     }
