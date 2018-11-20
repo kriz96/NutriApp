@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/action_start"
-        android:title="Iniciar Caminata"
-        android:icon="@drawable/ic_launcher_walk"/>
-
-    <item
-        android:id="@+id/action_stop"
-        android:title="Descanso"
-        android:icon="@drawable/ic_launcher_stop"/>
-
-    <item
-        android:id="@+id/action_rest"
-        android:title="Reiniciar"
-        android:icon="@drawable/ic_launcher_reset"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
 </menu>

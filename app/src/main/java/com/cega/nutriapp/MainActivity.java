@@ -1,9 +1,15 @@
 package com.cega.nutriapp;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,80 +20,103 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, StepListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "SensorEvent";
-
-    private Toolbar toolbar;
     private TextView stp;
-    private Intent in;
-    private boolean isServiceStopped;
-    private String countedStep;
+
+    private StepDetector simpleStepDetector;
+    private SensorManager sensorManager;
+    private Sensor accel;
+    private int numSteps;
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.nav_drawer);
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
         stp = findViewById(R.id.step_count);
 
-        in = new Intent(getApplicationContext(), StepService.class);
-        registerReceiver(broadcastReceiver, new IntentFilter(StepService.BROADCAST_ACTION));
-        isServiceStopped = false;
+        drawerLayout = findViewById(R.id.drawer_ly);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-    }
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.open_draw,R.string.close_draw);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        // Traer instancia del sensor
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(this);
+
+        // Iniciar sensor al abrir app
+        numSteps = 0;
+        sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.action_start:
-                start(true);
-                break;
-            case R.id.action_stop:
-                start(false);
-                break;
-            case R.id.action_rest:
-                Toast.makeText(this,"nosirvo xd",Toast.LENGTH_SHORT).show();
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateViews(intent);
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            simpleStepDetector.updateAccel(
+                    event.timestamp, event.values[0], event.values[1], event.values[2]);
         }
-    };
+    }
 
-    private void updateViews(Intent intent) {
-        // retrieve data out of the intent.
-        countedStep = intent.getStringExtra("Counted_Step");
-        Log.d(TAG, String.valueOf(countedStep));
-
-        stp.setText(String.valueOf(countedStep));
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
-    public void start(boolean aux){
-        if(aux){
-            startService(new Intent(getBaseContext(), StepService.class));
+    @Override
+    public void step(long timeNs) {
+        numSteps++;
+        stp.setText(String.valueOf(numSteps));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.action_start:
+                numSteps = 0;
+                sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+                break;
+            case R.id.action_stop:
+                sensorManager.unregisterListener(MainActivity.this);
+                break;
+            case R.id.action_restart:
+                numSteps = 0;
+                Toast.makeText(this,"nosirvo xd", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_info:
+                Toast.makeText(this,"nosirvo xd", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_help:
+                Toast.makeText(this,"nosirvo xd", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            stopService(new Intent(getBaseContext(), StepService.class));
+            super.onBackPressed();
         }
-
     }
-
-
-
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:title="Comenzar"
+            android:id="@+id/action_start"
+            android:icon="@drawable/ic_launcher_walk"
+            />
+        <item
+            android:title="Descanso"
+            android:id="@+id/action_stop"
+            android:icon="@drawable/ic_launcher_stop"/>
+        <item
+            android:title="Reiniciar"
+            android:id="@+id/action_restart"
+            android:icon="@drawable/ic_launcher_reset"/>
+    </group>
+
+    <item android:title="Informacion">
+        <menu>
+            <item
+                android:title="Informacion Personal"
+                android:id="@+id/action_info"
+                android:icon="@drawable/ic_account_circle"/>
+            <item
+                android:title="Ayuda"
+                android:id="@+id/action_help"
+                android:icon="@drawable/ic_help_outline"/>
+        </menu>
+    </item>
+</menu>

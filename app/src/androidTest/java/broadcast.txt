@@ -1,0 +1,40 @@
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.IntentFilter;
+
+
+ private boolean isServiceStopped;
+    private String countedStep;
+
+/*ONCREATE*/
+      in = new Intent(getApplicationContext(), StepService.class);
+        registerReceiver(broadcastReceiver, new IntentFilter(StepService.BROADCAST_ACTION));
+        isServiceStopped = false;
+
+
+
+
+private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateViews(intent);
+        }
+    };
+
+    private void updateViews(Intent intent) {
+        // retrieve data out of the intent.
+        countedStep = intent.getStringExtra("Counted_Step");
+        Log.d(TAG, String.valueOf(countedStep));
+        //stp.setText(String.valueOf(countStep.getStp()));
+
+    }
+
+    public void start(boolean aux){
+        if(aux){
+            startService(new Intent(getBaseContext(), StepService.class));
+        } else {
+            stopService(new Intent(getBaseContext(), StepService.class));
+        }
+
+    }
