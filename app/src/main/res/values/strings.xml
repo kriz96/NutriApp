@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NutriApp</string>
     <string name="bienvenido_usuario">Bienvenido Usuario</string>
-    <string name="calorias_totales">Calorias Totales: 450</string>
+    <string name="calorias_totales">Calorias Totales: 0</string>
     <string name="title_pasos">Pasos</string>
     <string name="step_counter">500</string>
     <string name="cal_counter" >120</string>
@@ -9,4 +9,16 @@
     <string name="rutina">Rutina</string>
     <string name="open_draw">Abrir</string>
     <string name="close_draw">Cerrar</string>
+    <string name="nombre">Nombre</string>
+    <string name="edad">Edad</string>
+    <string name="sex">Sexo</string>
+    <string name="importante">Importante</string>
+    <string name="cm">cm</string>
+    <string name="estatura">Estatura</string>
+    <string name="cintura">Medidas Cintura</string>
+    <string name="Peso">Peso</string>
+    <string name="kg">kg</string>
+    <string name="sick">Tiene Diabetes</string>
+    <string name="fisic">Realiza Actividad Fisica</string>
+    <string name="listo">Listo</string>
 </resources>

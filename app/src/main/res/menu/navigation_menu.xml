@@ -11,7 +11,7 @@
             android:id="@+id/action_stop"
             android:icon="@drawable/ic_launcher_stop"/>
         <item
-            android:title="Reiniciar"
+            android:title="Detener"
             android:id="@+id/action_restart"
             android:icon="@drawable/ic_launcher_reset"/>
     </group>

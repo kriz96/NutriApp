@@ -2,7 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
+        <item name="colorPrimary">#f3f3f3</item>
+        <item name="colorPrimaryDark">#f3f3f3</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -11,4 +12,11 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>
