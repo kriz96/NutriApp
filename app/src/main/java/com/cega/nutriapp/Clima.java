@@ -1,5 +1,6 @@
 package com.cega.nutriapp;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -15,6 +16,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Clima extends Service {
+    private static final int ID_NOTIFICATION = 1234;
+
+    private String temp, description, mainDescrip;
+    private NotificationManager notificationManager;
+
+
     public Clima() {
     }
 
@@ -22,6 +29,17 @@ public class Clima extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        find_weather();
+        return START_STICKY;
     }
 
     public void find_weather(){
@@ -34,9 +52,9 @@ public class Clima extends Service {
                     JSONObject main_object = response.getJSONObject("main");
                     JSONArray array = response.getJSONArray("weather");
                     JSONObject object = array.getJSONObject(0);
-                    String temp = String.valueOf(main_object.getDouble("temp"));
-                    String description = object.getString("description");
-                    String mainDescrip = object.getString("main");
+                    temp = String.valueOf(main_object.getDouble("temp"));
+                    description = object.getString("description");
+                    mainDescrip = object.getString("main");
 
                 } catch (Exception e){
                     e.printStackTrace();

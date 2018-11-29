@@ -24,6 +24,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.security.spec.ECField;
 import java.util.concurrent.ExecutionException;
 
@@ -90,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // Actualizar Cal Totales
         loadCalPref();
+
+        // Notificaion
+        Intent notyService = new Intent(this, Clima.class);
+
 
     }
 
@@ -253,6 +267,5 @@ public class MainActivity extends AppCompatActivity implements
 
         upCalTol.setText(String.valueOf("Ultima Sesión: "+Math.floor(calTotal)));
     }
-
 
 }
