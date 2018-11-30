@@ -21,4 +21,7 @@
     <string name="sick">Tiene Diabetes</string>
     <string name="fisic">Realiza Actividad Fisica</string>
     <string name="listo">Listo</string>
+    <string name="start">Comenzamos?</string>
+    <string name="vamos">Vamos!</string>
+    <string name="aun_no">Aun no</string>
 </resources>

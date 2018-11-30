@@ -1,6 +1,10 @@
 package com.cega.nutriapp;
 
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,9 +23,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +47,8 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements
         SensorEventListener, StepListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        CuadroDialog.StartStep{
     private static final String TAG = "SensorEvent";
     private static final String STEPS = "Counted_STEP";
     public static final String INFO = "user_credencial";
@@ -52,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements
     private int sleep_stp;
     private Double peso;
     private Double cal;
+    private Double calTotal = 0.0;
 
     /* Cronometro */
     private BroadcastReceiver threadcrono;
@@ -90,21 +100,23 @@ public class MainActivity extends AppCompatActivity implements
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
 
-        // Iniciar sensor al abrir
-        Toast.makeText(this, "Comencemos!", Toast.LENGTH_LONG).show();
-        numSteps = 0;
-        sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-
-        // Tiempo de Actividad
-        updateTime();
+        // Abrir Dialog
+        openDialog();
 
         // Actualizar Cal Totales
         loadCalPref();
 
-        // Notificaion
-        Intent notyService = new Intent(this, Clima.class);
+        // Notifiacion
+        activeNotification();
 
+    }
 
+    private void activeNotification() {
+        Intent intent = new Intent(this, Clima.class);
+        PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
+        long updateInterval = AlarmManager.INTERVAL_HALF_HOUR;
+        AlarmManager notify = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        notify.setRepeating(AlarmManager.RTC_WAKEUP, 30000, updateInterval, pendingIntent);
     }
 
     @Override
@@ -212,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         sleep();
         stopTime();
+
         super.onDestroy();
     }
 
@@ -255,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements
 
         String total = String.valueOf(Math.floor(cal));
 
+        editor.putString("calTotal", String.valueOf(calTotal));
         editor.putString("totales", total);
         editor.commit();
 
@@ -262,10 +276,30 @@ public class MainActivity extends AppCompatActivity implements
 
     public void loadCalPref(){
         SharedPreferences info = getSharedPreferences("Calorias", Context.MODE_PRIVATE);
-        String total = info.getString("totales","0");
-        Double calTotal = Double.parseDouble(total);
+        String total = info.getString("calTotal","0");
+        Double caloriasUltimaSecion = Double.parseDouble(total);
+        calTotal += caloriasUltimaSecion;
 
-        upCalTol.setText(String.valueOf("Ultima Sesión: "+Math.floor(calTotal)));
+        upCalTol.setText("Ultima Secion: "+String.valueOf(calTotal));
+
+    }
+
+    public void openDialog(){
+        CuadroDialog cuadroDialog = new CuadroDialog();
+        cuadroDialog.show(getSupportFragmentManager(), "Dialogo");
+    }
+
+    @Override
+    public void action(boolean start) {
+        if(start){
+            // Iniciar sensor al abrir
+            Toast.makeText(this, "Comencemos!", Toast.LENGTH_LONG).show();
+            numSteps = 0;
+            sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+            updateTime();
+        } else {
+            Toast.makeText(this, "Abre el menú para iniciar", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

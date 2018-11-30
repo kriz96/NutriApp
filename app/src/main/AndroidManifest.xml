@@ -24,12 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QuestionActivity"></activity>
+        <activity android:name=".QuestionActivity">
+
+        </activity>
 
         <service
             android:name=".Clima"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+
+        </service>
     </application>
 
 </manifest>
