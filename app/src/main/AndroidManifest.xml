@@ -24,12 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QuestionActivity"></activity>
+        <activity android:name=".QuestionActivity" />
 
-        <service
-            android:name=".Clima"
-            android:enabled="true"
-            android:exported="true"></service>
+        <activity android:name=".rutinas" />
+        <activity android:name=".dietas"></activity>
     </application>
 
 </manifest>

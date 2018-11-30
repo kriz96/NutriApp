@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".rutinas"
+    tools:layout_editor_absoluteY="25dp">
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="442dp"
+        android:layout_height="85dp"
+        android:contentDescription="@string/rutina"
+        app:layout_constraintBottom_toTopOf="@+id/dia"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rutina"
+        tools:layout_editor_absoluteX="-27dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/dia"
+        android:layout_width="129dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="25dp"
+        android:text="@string/dia"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/rutina"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/rutina"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="13dp"
+        android:background="@drawable/marco2"
+        android:text="@string/aqui_rutina"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dia" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="regresarMain"
+        android:text="@string/atras"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rutina" />
+
+</android.support.constraint.ConstraintLayout>
