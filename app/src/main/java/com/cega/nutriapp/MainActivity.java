@@ -1,6 +1,8 @@
 package com.cega.nutriapp;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,11 +37,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.security.spec.ECField;
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements
         SensorEventListener, StepListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        CuadroDialog.StartStep{
     private static final String TAG = "SensorEvent";
     private static final String STEPS = "Counted_STEP";
     public static final String INFO = "user_credencial";
@@ -91,28 +95,30 @@ public class MainActivity extends AppCompatActivity implements
         simpleStepDetector.registerListener(this);
 
         // Iniciar sensor al abrir
-        Toast.makeText(this, "Comencemos!", Toast.LENGTH_LONG).show();
-        numSteps = 0;
-        sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-
-        // Tiempo de Actividad
-        updateTime();
+        openDialog();
 
         // Actualizar Cal Totales
         loadCalPref();
 
         // Notificaion
-        Intent notyService = new Intent(this, Clima.class);
+
+        activeNotification();
+
+    }
 
 
+    private void activeNotification() {
+        Calendar calendar = Calendar.getInstance();
+        PendingIntent pi = PendingIntent.getService(this, 0,
+                new Intent(this, Clima.class),PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_HALF_HOUR, pi);
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
         savedInstanceState.putInt(STEPS, numSteps);
-
-        // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -153,8 +159,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_start:
-                sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-                Toast.makeText(this, "Comencemos!", Toast.LENGTH_LONG).show();
+                startSensor();
                 // Tiempo de Actividad
                 updateTime();
                 break;
@@ -210,8 +215,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onDestroy() {
-        sleep();
-        stopTime();
+        sensorManager.unregisterListener(MainActivity.this);
         super.onDestroy();
     }
 
@@ -266,6 +270,27 @@ public class MainActivity extends AppCompatActivity implements
         Double calTotal = Double.parseDouble(total);
 
         upCalTol.setText(String.valueOf("Ultima Sesión: "+Math.floor(calTotal)));
+    }
+
+    public void openDialog(){
+        CuadroDialog cuadroDialog = new CuadroDialog();
+        cuadroDialog.show(getSupportFragmentManager(), "Dialogo");
+    }
+
+    public void startSensor(){
+        sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        Toast.makeText(this, "Comencemos!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void action(boolean start) {
+        if(start){
+            startSensor();
+            updateTime();
+            sensorManager.registerListener(MainActivity.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        } else {
+            Toast.makeText(this, "Abre el menú para iniciar", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
