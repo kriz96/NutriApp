@@ -20,14 +20,14 @@ public class CuadroDialog extends AppCompatDialogFragment {
                 .setTitle(null)
                 .setCancelable(false);
 
-        builder.setPositiveButton(R.string.vamos, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Claro!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listener.action(true);
             }
         });
 
-        builder.setNegativeButton(R.string.aun_no, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Aun no", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 listener.action(false);

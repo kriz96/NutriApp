@@ -24,13 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QuestionActivity">
-
-        </activity>
+        <activity android:name=".QuestionActivity" />
 
         <service
             android:name=".Clima"
-            android:enabled="true"/>
+            android:enabled="true" />
+
+        <activity android:name=".Rutina" />
+        <activity android:name=".Dieta"></activity>
     </application>
 
 </manifest>

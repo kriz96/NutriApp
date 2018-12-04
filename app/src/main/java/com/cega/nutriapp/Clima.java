@@ -44,7 +44,7 @@ public class Clima extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("clima", "Servcio Inciado");
         requestWeather();
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
 

@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">NutriApp</string>
     <string name="bienvenido_usuario">Bienvenido Usuario</string>
     <string name="calorias_totales">Calorias Totales: 0</string>
     <string name="title_pasos">Pasos</string>
     <string name="step_counter">500</string>
-    <string name="cal_counter" >120</string>
+    <string name="cal_counter">120</string>
     <string name="dieta">Dieta</string>
     <string name="rutina">Rutina</string>
     <string name="open_draw">Abrir</string>
@@ -21,7 +21,14 @@
     <string name="sick">Tiene Diabetes</string>
     <string name="fisic">Realiza Actividad Fisica</string>
     <string name="listo">Listo</string>
-    <string name="start">Comenzamos?</string>
-    <string name="vamos">Vamos!</string>
-    <string name="aun_no">Aun no</string>
+    <string name="DIETA">Dieta</string>
+    <string name="dia">DIA</string>
+    <string name="desayuno">Desayuno</string>
+    <string name="comida">Comida</string>
+    <string name="cena">Cena</string>
+    <string name="aqui_desayuno">a qui va el desayuno</string>
+    <string name="aqui_comida">aqui va la comida</string>
+    <string name="aqui_cena">aqui va la cena</string>
+    <string name="aqui_rutina">a qui va la rutina</string>
+    <string name="atras">Back</string>
 </resources>

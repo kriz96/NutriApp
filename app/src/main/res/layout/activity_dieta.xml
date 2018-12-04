@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dieta">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="415dp"
+        android:layout_height="83dp"
+        android:layout_marginBottom="29dp"
+        android:contentDescription=""
+        app:layout_constraintBottom_toTopOf="@+id/desayuno"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dieta"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/dia"
+        android:layout_width="129dp"
+        android:layout_height="37dp"
+        android:text="Miercoles"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/desayuno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="16dp"
+        android:text="Desayuno"
+        android:textAlignment="textStart"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/aqui_desayuno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/desayuno"
+        app:srcCompat="@drawable/marco" />
+
+    <TextView
+        android:id="@+id/comida"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="16dp"
+        android:text="Comida"
+        android:textAlignment="textStart"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/aqui_comida"
+        app:layout_constraintEnd_toEndOf="@+id/desayuno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aqui_desayuno"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/comida"
+        app:srcCompat="@drawable/marco" />
+
+    <TextView
+        android:id="@+id/cena"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="16dp"
+        android:text="Cena"
+        android:textAlignment="textStart"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/aqui_cena"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aqui_comida"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="93dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="43dp"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aqui_comida"
+        app:srcCompat="@drawable/marco" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:text="Regresar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aqui_cena" />
+
+    <TextView
+        android:id="@+id/aqui_desayuno"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginStart="33dp"
+        android:text="2 huevos sin llema"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/comida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desayuno" />
+
+    <TextView
+        android:id="@+id/aqui_comida"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="35dp"
+        android:text="Pechuga de pollo asada"
+        app:layout_constraintBottom_toTopOf="@+id/cena"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comida" />
+
+    <TextView
+        android:id="@+id/aqui_cena"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="35dp"
+        android:text="Pan tostado con una tasa de Té"
+        app:layout_constraintBottom_toTopOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cena" />
+
+
+</android.support.constraint.ConstraintLayout>

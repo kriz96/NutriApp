@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,8 +55,9 @@ public class MainActivity extends AppCompatActivity implements
     private Sensor accel;
     private int numSteps;
     private int sleep_stp;
-    private Double peso;
-    private Double cal;
+    private Double peso = 0.0;
+    private Double cal = 0.0;
+    private Boolean abrir = true;
 
     /* Cronometro */
     private BroadcastReceiver threadcrono;
@@ -95,13 +97,16 @@ public class MainActivity extends AppCompatActivity implements
         simpleStepDetector.registerListener(this);
 
         // Iniciar sensor al abrir
-        openDialog();
+        SharedPreferences info = getSharedPreferences("Calorias", Context.MODE_PRIVATE);
+        info.getBoolean("abrirActivity", false);
+        if(abrir){
+            openDialog();
+        }
 
         // Actualizar Cal Totales
         loadCalPref();
 
         // Notificaion
-
         activeNotification();
 
     }
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements
                 new Intent(this, Clima.class),PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_HALF_HOUR, pi);
+                60000, pi);
     }
 
     @Override
@@ -140,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             simpleStepDetector.updateAccel(
                     event.timestamp, event.values[0], event.values[1], event.values[2]);
-
         }
     }
 
@@ -160,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements
         switch (menuItem.getItemId()) {
             case R.id.action_start:
                 startSensor();
-                // Tiempo de Actividad
                 updateTime();
                 break;
             case R.id.action_stop:
@@ -170,15 +173,13 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.action_restart:
                 time = 0;
                 numSteps = 0;
-                Toast.makeText(this, "nosirvo xd", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_info:
                 Intent info = new Intent(this, QuestionActivity.class);
                 startActivity(info);
-                //Toast.makeText(this,"nosirvo xd", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_help:
-                Toast.makeText(this, "nosirvo xd", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Correo: a14490833@itmexicali.edu.mx", Toast.LENGTH_SHORT).show();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -244,10 +245,14 @@ public class MainActivity extends AppCompatActivity implements
            // Datos Usuario
            SharedPreferences info = getSharedPreferences(INFO, Context.MODE_PRIVATE);
            peso = Double.parseDouble(info.getString("peso",""));
-           cal = 0.029 * peso * 2.2 * time;
-           double floor = Math.floor(cal);
-           Log.d("cronometro", "Cal: " +String.format("%.0f", floor));
-           upCal.setText(String.valueOf(floor));
+           if(peso == 0.0) {
+                Toast.makeText(getApplicationContext(), "Completar informacion personal.", Toast.LENGTH_LONG).show();
+                Log.d("cronometro", "Llenar");
+           } else {
+               cal = 0.029 * peso * 2.2 * time;
+               Log.d("cronometro", "Cal: " +String.format("%.0f", Math.floor(cal)));
+               upCal.setText(String.valueOf(Math.floor(cal)));
+           }
        } catch (Exception e){
 
        }
@@ -261,7 +266,6 @@ public class MainActivity extends AppCompatActivity implements
 
         editor.putString("totales", total);
         editor.commit();
-
     }
 
     public void loadCalPref(){
@@ -293,4 +297,23 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    public void abrirDieta(View view) {
+        SharedPreferences info = getSharedPreferences("Calorias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = info.edit();
+
+        editor.putBoolean("abrirActivity", false);
+        editor.commit();
+        Intent intent = new Intent(this, Dieta.class);
+        startActivity(intent);
+    }
+
+    public void abrirRutina(View view) {
+        SharedPreferences info = getSharedPreferences("Calorias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = info.edit();
+
+        editor.putBoolean("abrirActivity", false);
+        editor.commit();
+        Intent intent = new Intent(this, Rutina.class);
+        startActivity(intent);
+    }
 }

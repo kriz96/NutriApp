@@ -144,7 +144,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_main"
             android:text="@string/dieta"
-            android:textColor="@color/button" />
+            android:textColor="@color/button"
+            android:onClick="abrirDieta"/>
 
         <Button
             android:layout_width="match_parent"
@@ -152,7 +153,8 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/button_main"
             android:text="@string/rutina"
-            android:textColor="@color/button" />
+            android:textColor="@color/button"
+            android:onClick="abrirRutina"/>
 
     </LinearLayout>
 
